@@ -1,6 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
+import Image from 'next/image';
 
 import { DashboardProps, SidebarItemProps } from './types';
 import { defaultChartData, defaultMenuItems, defaultMetrics } from './data';
@@ -58,10 +59,12 @@ const AnalyticsDashboard: React.FC<DashboardProps> = ({
           transition={{ duration: 0.5, delay: 0.2 }}
         >
           <div className="flex items-center space-x-3">
-            <img
+            <Image
               src={'/assets/xpips-logo.png'}
               alt="Logo"
               className="w-8 h-8"
+              width={32}
+              height={32}
             />
             <span className="text-white font-semibold">Dashboard</span>
           </div>
