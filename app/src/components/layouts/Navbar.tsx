@@ -3,8 +3,10 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 const Navbar = () => {
+  const router = useRouter();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const toggleMobileMenu = () => {
@@ -68,156 +70,12 @@ const Navbar = () => {
 
   return (
     <>
-      <style jsx>{`
-        .nav-link {
-          position: relative;
-          overflow: hidden;
-        }
-
-        .nav-link::before {
-          content: '';
-          position: absolute;
-          bottom: -2px;
-          left: 0;
-          width: 0;
-          height: 2px;
-          background: linear-gradient(90deg, #3b82f6, #60a5fa);
-          transition: width 0.3s ease;
-        }
-
-        .nav-link:hover::before {
-          width: 100%;
-        }
-
-        .nav-link::after {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: -100%;
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(
-            90deg,
-            transparent,
-            rgba(59, 130, 246, 0.1),
-            transparent
-          );
-          transition: left 0.5s ease;
-        }
-
-        .nav-link:hover::after {
-          left: 100%;
-        }
-
-        .mobile-nav-link {
-          position: relative;
-          overflow: hidden;
-        }
-
-        .mobile-nav-link::before {
-          content: '';
-          position: absolute;
-          left: 0;
-          top: 50%;
-          transform: translateY(-50%);
-          width: 0;
-          height: 2px;
-          background: #3b82f6;
-          transition: width 0.3s ease;
-        }
-
-        .mobile-nav-link:hover::before {
-          width: 4px;
-        }
-
-        .auth-button {
-          position: relative;
-          overflow: hidden;
-        }
-
-        .auth-button::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: -100%;
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(
-            90deg,
-            transparent,
-            rgba(255, 255, 255, 0.1),
-            transparent
-          );
-          transition: left 0.4s ease;
-        }
-
-        .auth-button:hover::before {
-          left: 100%;
-        }
-
-        .dashboard-button {
-          position: relative;
-          overflow: hidden;
-        }
-
-        .dashboard-button::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 0;
-          height: 100%;
-          background: #3b82f6;
-          transition: width 0.3s ease;
-          z-index: -1;
-        }
-
-        .dashboard-button:hover::before {
-          width: 100%;
-        }
-      `}</style>
-
       <motion.header
-        className="relative  border-b border-gray-900"
+        className="relative w-full z-50 border-b border-gray-900"
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.5, ease: 'easeOut' }}
       >
-        <svg
-          className="absolute top-0 left-0 w-full h-full -z-10"
-          viewBox="0 0 1440 130"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          preserveAspectRatio="xMidYMid slice"
-        >
-          <g filter="url(#filter0_f_124_77)">
-            <ellipse cx="720" cy="-86.5" rx="720" ry="66.5" fill="#1F69FF" />
-          </g>
-          <defs>
-            <filter
-              id="filter0_f_124_77"
-              x="-150"
-              y="-303"
-              width="1740"
-              height="433"
-              filterUnits="userSpaceOnUse"
-              colorInterpolationFilters="sRGB"
-            >
-              <feFlood floodOpacity="0" result="BackgroundImageFix" />
-              <feBlend
-                mode="normal"
-                in="SourceGraphic"
-                in2="BackgroundImageFix"
-                result="shape"
-              />
-              <feGaussianBlur
-                stdDeviation="75"
-                result="effect1_foregroundBlur_124_77"
-              />
-            </filter>
-          </defs>
-        </svg>
-
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 lg:h-20">
             <motion.div
@@ -240,7 +98,7 @@ const Navbar = () => {
                 <motion.a
                   key={link.name}
                   href={link.href}
-                  className="nav-link text-gray-300 hover:text-white transition-colors duration-300 font-medium py-2 px-1"
+                  className="relative text-gray-300 hover:text-white transition-colors duration-300 font-medium py-2 px-1 overflow-hidden before:absolute before:bottom-0 before:left-0 before:h-[2px] before:w-0 hover:before:w-full before:transition-all before:duration-300 before:bg-gradient-to-r before:from-blue-500 before:to-blue-400"
                   initial={{ opacity: 0, y: -20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{
@@ -256,24 +114,29 @@ const Navbar = () => {
 
             <div className="hidden md:flex items-center space-x-4">
               <motion.button
-                className="auth-button text-gray-300 hover:text-white transition-colors duration-300 font-medium py-2 px-6 rounded"
+                onClick={() => router.push('/auth/login')}
+                className="relative overflow-hidden group text-gray-300 hover:text-white transition-all duration-300 font-medium py-2 px-6 rounded bg-gradient-to-r from-blue-600/20 to-blue-400/20 hover:from-blue-600/30 hover:to-blue-400/30 cursor-pointer shadow-[inset_0_0_10px_rgba(31,147,255,0.5)] hover:shadow-[inset_0_0_20px_rgba(31,147,255,0.6)]"
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.3, duration: 0.3 }}
-                style={{
-                  boxShadow:
-                    'rgba(31, 147, 255, 0.5) 0px 0px 10px 0px inset, rgba(31, 147, 255, 0.5) 0px 0px 20px 0px inset, rgba(31, 147, 255, 0.1) 0px 0px 30px 0px inset',
-                }}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
               >
-                Login
+                <span className="relative z-10">Login</span>
+                <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-500 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
               </motion.button>
+
               <motion.button
-                className="dashboard-button px-6 py-1.5 border border-blue-500 text-white rounded-lg hover:text-white transition-all duration-300 font-medium relative"
+                onClick={() => router.push('/dashboard')}
+                className="relative overflow-hidden group text-white hover:text-white transition-all duration-300 font-medium py-1.5 px-6 rounded-lg border border-blue-500 hover:border-blue-400 cursor-pointer"
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.4, duration: 0.3 }}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
               >
-                Dashboard
+                <span className="relative z-10">Dashboard</span>
+                <div className="absolute inset-0 w-0 group-hover:w-full transition-all duration-300 bg-gradient-to-r from-blue-600/20 to-blue-400/20" />
               </motion.button>
             </div>
 
@@ -316,13 +179,13 @@ const Navbar = () => {
               animate="open"
               exit="closed"
             >
-              <nav className="px-4 py-6 bg-[rgba(3, 0, 31, 1)] border-t border-gray-700/50">
+              <nav className="px-4 py-6 bg-[rgba(3,0,31,1)] border-t border-gray-700/50">
                 <div className="flex flex-col space-y-1">
                   {navLinks.map((link, index) => (
                     <motion.a
                       key={link.name}
                       href={link.href}
-                      className="mobile-nav-link text-gray-300 hover:text-white hover:bg-gray-800/30 transition-all duration-300 py-3 px-4 rounded-lg font-medium"
+                      className="relative text-gray-300 hover:text-white hover:bg-gray-800/30 transition-all duration-300 py-3 px-4 rounded-lg font-medium pl-6 before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:h-0 hover:before:h-1/2 before:w-1 before:bg-blue-500 before:transition-all before:duration-200"
                       variants={mobileNavItemVariants}
                       custom={index}
                       initial="closed"
@@ -334,27 +197,41 @@ const Navbar = () => {
                     </motion.a>
                   ))}
 
-                  {/* Mobile Auth Buttons */}
                   <div className="flex flex-col space-y-3 pt-6 border-t border-gray-700/50 mt-4">
                     <motion.button
-                      className="auth-button text-gray-300 hover:text-white hover:bg-gray-800/30 transition-all duration-300 text-left py-3 px-4 rounded-lg font-medium"
+                      onClick={() => {
+                        router.push('/auth/login');
+                        setIsMobileMenuOpen(false);
+                      }}
+                      className="relative overflow-hidden group text-gray-300 hover:text-white hover:bg-gray-800/30 transition-all duration-300 text-left py-3 px-4 rounded-lg font-medium"
                       variants={mobileNavItemVariants}
                       custom={navLinks.length}
                       initial="closed"
                       animate="open"
                       exit="closed"
+                      whileHover={{ scale: 1.02, x: 4 }}
+                      whileTap={{ scale: 0.98 }}
                     >
-                      Login
+                      <span className="relative z-10">Login</span>
+                      <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-500 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
                     </motion.button>
+
                     <motion.button
-                      className="dashboard-button px-4 py-3 border border-blue-500 text-blue-400 rounded-lg hover:text-white transition-all duration-300 text-center font-medium"
+                      onClick={() => {
+                        router.push('/dashboard');
+                        setIsMobileMenuOpen(false);
+                      }}
+                      className="relative overflow-hidden group text-blue-400 hover:text-white transition-all duration-300 text-center py-3 px-4 rounded-lg font-medium border border-blue-500 hover:border-blue-400"
                       variants={mobileNavItemVariants}
                       custom={navLinks.length + 1}
                       initial="closed"
                       animate="open"
                       exit="closed"
+                      whileHover={{ scale: 1.02, x: 4 }}
+                      whileTap={{ scale: 0.98 }}
                     >
-                      Dashboard
+                      <span className="relative z-10">Dashboard</span>
+                      <div className="absolute inset-0 w-0 group-hover:w-full transition-all duration-300 bg-gradient-to-r from-blue-600/20 to-blue-400/20" />
                     </motion.button>
                   </div>
                 </div>
